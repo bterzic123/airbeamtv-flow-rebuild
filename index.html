@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — AirBeamTV</title>
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only dark;
+  /* ---- AirBeamTV, extracted from their live screens (dark-only app) ---- */
+  --ab-bg:#000000; --ab-card:#1A1A1C; --ab-line:#2C2C2E;
+  --ab-red:#EA394B; --ab-red-dk:#C4141A; --ab-ink:#FFFFFF; --ab-txt:#D1D1D6; --ab-muted:#8E8E93;
+  --ab-orange:#F28C28; --ab-sel:#1A1A1C;
+  --r-ctl:12px; --r-media:22px;
+  /* ---- the report shell, in AirBeamTV's own palette ---- */
+  --bg:#0A0A0B; --bg2:#141416; --surf:#161618;
+  --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
+  --ink:#F5F5F7; --ink2:#C2C2C7; --ink3:#8A8A90;
+  --accent:#EA394B; --accent-lift:#FF6B79;
+  --panel:#FFFFFF; --panel-ink:#15151A; --panel-muted:#62626A; --panel-line:#ECECEF;
+  --accent-ink:#C41F31;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(10,10,11,.86);backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 20px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-brand img{width:26px;height:26px;flex:none;display:block;border-radius:6px}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-brand b{color:var(--ink);font-weight:600}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#232326;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+@media(max-width:640px){.nav-brand span{display:none}}
+
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);
+  width:1100px;height:640px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(234,57,75,.26),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 50% at 8% 20%,rgba(196,20,26,.16),transparent 70%),
+   radial-gradient(38% 45% at 92% 18%,rgba(242,140,40,.10),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:700;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:600px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:600}
+
+.stats{display:flex;justify-content:center;gap:0;margin:70px auto 0;max-width:760px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(234,57,75,.2);
+  display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:700}
+
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair);margin:0}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+
+.ideas{display:flex;flex-direction:column;gap:0;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;
+  padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.03)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;
+  font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;padding:40px 44px;margin-top:44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .txt p+p{margin-top:8px}
+.band .txt p b{color:var(--ink)}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;
+  text-transform:uppercase;font-weight:600}
+
+.cta-row{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;margin-top:52px}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;
+  font-size:15px;font-weight:700;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.1)}
+.bigbtn svg{width:15px;height:15px}
+
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);gap:0;
+  align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #3A3A3E,0 34px 80px -22px rgba(0,0,0,.8)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--ab-bg);color-scheme:only dark}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;
+  border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;
+  align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:600 15px/1 'Inter',sans-serif;color:#fff;transition:color .3s}
+.sbar.dark{color:#111}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;
+  border-radius:3px;background:rgba(255,255,255,.9);z-index:56;pointer-events:none;transition:background .3s}
+.homebar.dark{background:#111}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--ab-bg)}
+
+/* ============ phone screens — AirBeamTV's system, all prefixed scr-/ab- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--ab-bg);color:var(--ab-ink);
+  font-family:'Inter',-apple-system,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 22px 0;position:relative;z-index:2}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 22px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-foot{flex:none;padding:12px 22px 30px;position:relative;z-index:2;background:var(--ab-bg)}
+
+/* their pill CTA */
+.ab-btn{display:block;width:100%;height:54px;border-radius:27px;background:var(--ab-red);color:#fff;
+  font:400 17px/1 'Inter',sans-serif;letter-spacing:-.005em;transition:filter .15s}
+.ab-btn:hover{filter:brightness(1.06)}
+.ab-btn[disabled]{background:#5A1F26;color:#B98A90;cursor:default}
+.ab-ghost{display:block;width:100%;height:36px;margin-top:6px;font:500 13px/1 'Inter',sans-serif;color:var(--ab-muted)}
+.ab-helper{font-size:12.5px;line-height:1.4;color:var(--ab-txt);text-align:center;margin:0 0 12px}
+.ab-helper b{color:var(--ab-ink);font-weight:600}
+.ab-links{display:flex;justify-content:space-between;margin-top:18px;padding:0 6px}
+.ab-links a{font:500 10.5px/1 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#56565C;text-decoration:none}
+
+/* the TV-in-a-room photo — their art direction */
+.ab-photo{position:absolute;left:0;right:0;top:0;height:441px;z-index:0;pointer-events:none}
+.ab-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 0;display:block;transition:opacity .35s}
+.ab-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0,0,0,.55) 66%,var(--ab-bg) 100%)}
+.ab-photo.short{height:330px}
+.ab-photo.short::after{background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.35) 70%,rgba(0,0,0,.6))}
+
+/* intro carousel */
+.scr--intro .scr-foot{background:transparent}
+.scr--intro .ab-photo{height:555px}
+.scr--intro .ab-photo::after{background:linear-gradient(180deg,rgba(0,0,0,0) 52%,rgba(0,0,0,.6) 74%,var(--ab-bg) 94%)}
+.phone-in.light .scr--intro .ab-photo::after{background:linear-gradient(180deg,rgba(242,242,247,0) 52%,rgba(242,242,247,.6) 74%,#F2F2F7 94%)}
+.ab-ih{font:600 21.5px/1.22 'Inter',sans-serif;letter-spacing:-.005em;text-transform:uppercase;text-align:center;color:var(--ab-ink);margin:0 10px}
+.ab-is{font:400 12.5px/1.45 'Inter',sans-serif;color:var(--ab-txt);text-align:center;margin:12px 34px 26px}
+
+/* question header */
+.ab-nav{display:flex;align-items:center;gap:12px;height:36px}
+.ab-back{width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;color:var(--ab-ink);margin-left:-8px}
+.ab-back svg{width:22px;height:22px}
+.ab-prog{flex:1;height:4px;border-radius:2px;background:var(--ab-line);overflow:hidden;margin-right:28px}
+.ab-prog i{display:block;height:100%;background:var(--ab-red);border-radius:2px;transition:width .4s cubic-bezier(.32,.72,0,1)}
+.ab-h{font:700 24px/1.2 'Inter',sans-serif;letter-spacing:-.02em;text-align:center;margin:20px 6px 0;color:var(--ab-ink)}
+.ab-sub{font-size:14px;line-height:1.45;color:var(--ab-txt);margin:9px 6px 0;text-align:center}
+.ab-sub b{color:var(--ab-ink);font-weight:700;color:var(--ab-red)}
+
+/* their home-card tiles, now as answers */
+.ab-tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+.ab-tile{position:relative;height:168px;border-radius:var(--r-media);background:var(--ab-card);border:2px solid transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 10px;transition:.16s}
+.ab-tile img,.ab-tile svg.ic{height:38px;width:auto;display:block;margin-bottom:12px}
+.ab-tile b{display:block;font:700 17px/1.2 'Inter',sans-serif;color:var(--ab-ink);letter-spacing:-.01em}
+.ab-tile span{display:block;font-size:12.5px;line-height:1.3;color:var(--ab-txt);margin-top:5px}
+.ab-tile.on{border-color:var(--ab-red)}
+.ab-ck{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;border:1.5px solid #4A4A50;display:grid;place-items:center;transition:.16s}
+.ab-ck svg{width:12px;height:12px;stroke:#fff;stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.on>.ab-ck{background:var(--ab-red);border-color:var(--ab-red)}
+.on>.ab-ck svg{opacity:1}
+
+/* model-year letters, in their plan-row style */
+.ab-yrs{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:22px}
+.ab-yr{height:66px;border-radius:var(--r-ctl);background:var(--ab-card);border:2px solid transparent;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;transition:.16s}
+.ab-yr b{font:700 22px/1 'Inter',sans-serif;color:var(--ab-ink)}
+.ab-yr span{font:500 11.5px/1 'Inter',sans-serif;color:var(--ab-muted);margin-top:6px}
+.ab-yr.on{border-color:var(--ab-red)}
+.ab-yr.on span{color:var(--ab-txt)}
+.ab-yr.wide{grid-column:span 3;flex-direction:row;gap:8px}
+.ab-yr.wide b{font-size:15px;font-weight:600}
+
+/* loader */
+.ab-loadwrap{display:flex;flex-direction:column;align-items:center;padding-top:268px}
+.ab-spin{width:44px;height:44px;margin-bottom:18px;animation:spin 1s steps(8) infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ab-load-h{font:700 22px/1.2 'Inter',sans-serif;letter-spacing:-.02em;color:var(--ab-ink);text-align:center;margin:0 0 20px}
+.ab-lsteps{width:100%;display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.ab-ls{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;color:#5C5C62;transition:.35s;background:var(--ab-card);border-radius:var(--r-ctl);padding:12px 14px}
+.ab-ls.on{color:var(--ab-ink)}
+.ab-ls .d{width:22px;height:22px;flex:none;border-radius:50%;border:1.5px solid #4A4A50;display:grid;place-items:center;transition:.35s}
+.ab-ls.on .d{background:var(--ab-red);border-color:var(--ab-red)}
+.ab-ls .d svg{width:12px;height:12px;stroke:#fff;stroke-width:3.2;fill:none;opacity:0;stroke-linecap:round;stroke-linejoin:round}
+.ab-ls.on .d svg{opacity:1}
+.ab-quote{width:100%;border:1px solid var(--ab-line);border-radius:var(--r-ctl);padding:14px 16px;min-height:100px}
+.ab-quote .st{color:#FFB21E;font-size:12px;letter-spacing:2px}
+.ab-quote p{font-size:13.5px;line-height:1.5;color:var(--ab-txt);margin-top:4px}
+.ab-quote b{display:block;margin-top:7px;font-size:12px;font-weight:600;color:var(--ab-muted)}
+
+/* sheet over the photo — their "Choose Your Plan" composition */
+.ab-spacer{height:232px}
+.ab-sheettop{margin:0 -22px;padding:24px 22px 0;background:var(--ab-bg);border-radius:26px 26px 0 0}
+.ab-x{position:absolute;right:22px;top:58px;width:30px;height:30px;border-radius:50%;background:rgba(60,60,64,.75);
+  display:grid;place-items:center;color:#DCDCE0;z-index:5}
+.ab-x svg{width:14px;height:14px}
+.ab-payh{font:700 24px/1.2 'Inter',sans-serif;letter-spacing:-.02em;text-align:center;color:var(--ab-ink);margin:0 4px}
+.ab-proofline{display:flex;justify-content:center;align-items:center;gap:5px;font-size:12.5px;white-space:nowrap;color:var(--ab-txt);margin-top:8px}
+.ab-proofline .st{color:#FFB21E;letter-spacing:1px}
+.ab-feats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px}
+.ab-feat{display:flex;align-items:center;justify-content:center;gap:5px;height:28px;padding:0 8px;white-space:nowrap;border-radius:14px;background:var(--ab-card);font:500 12px/1 'Inter',sans-serif;color:var(--ab-txt)}
+.ab-feat svg{width:12px;height:12px;stroke:var(--ab-red);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ab-plans{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.ab-plan{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:var(--ab-sel);border:2px solid transparent;
+  border-radius:var(--r-ctl);padding:0 16px;min-height:52px;transition:.16s}
+.ab-plan.tall{min-height:60px}
+.ab-plan .t{display:block;font:600 16px/1.2 'Inter',sans-serif;color:var(--ab-ink)}
+.ab-plan .s{display:block;font-size:12.5px;color:var(--ab-muted);margin-top:4px}
+.ab-plan .s em{font-style:normal;color:var(--ab-red);font-weight:600}
+.ab-plan.on{border-color:var(--ab-red)}
+.ab-radio{width:22px;height:22px;flex:none;border-radius:50%;border:1.5px solid #4A4A50;display:grid;place-items:center;transition:.16s}
+.ab-radio svg{width:12px;height:12px;stroke:#fff;stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.ab-plan.on .ab-radio{background:var(--ab-red);border-color:var(--ab-red)}
+.ab-plan.on .ab-radio svg{opacity:1}
+
+/* payoff */
+.ab-card{background:var(--ab-card);border-radius:var(--r-ctl);padding:6px 14px;margin-top:16px}
+.ab-lab{font:600 11px/1 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--ab-muted);margin:16px 2px 0}
+.ab-step{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:14px;line-height:1.35;color:var(--ab-ink)}
+.ab-step+.ab-step{border-top:1px solid var(--ab-line)}
+.ab-step i{width:24px;height:24px;flex:none;border-radius:50%;background:var(--ab-red);color:#fff;font:700 12.5px/24px 'Inter',sans-serif;text-align:center;font-style:normal}
+.ab-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.ab-proof div{background:var(--ab-card);border-radius:var(--r-ctl);padding:11px 6px 10px;text-align:center}
+.ab-proof b{display:block;font:700 17px/1.1 'Inter',sans-serif;color:var(--ab-ink);white-space:nowrap}
+.ab-proof b .st{color:#FFB21E;font-size:14px}
+.ab-proof>div>span{display:block;font-size:11px;line-height:1.3;color:var(--ab-muted);margin-top:4px}
+.ab-drm{display:flex;gap:10px;align-items:flex-start;margin-top:10px;border:1px solid var(--ab-line);border-radius:var(--r-ctl);padding:10px 12px;font-size:12.5px;line-height:1.45;color:var(--ab-txt)}
+.ab-drm svg{width:16px;height:16px;flex:none;margin-top:1px;stroke:var(--ab-orange);stroke-width:2;fill:none}
+
+/* offer — their Special Offer tile, grown into a screen */
+.scr--offer .ab-x{top:58px}
+.ab-oh{font:700 27px/1.15 'Inter',sans-serif;letter-spacing:-.025em;text-align:center;color:var(--ab-ink);margin:44px 8px 0}
+.ab-os{font-size:14px;line-height:1.45;color:var(--ab-txt);text-align:center;margin:9px 20px 0}
+.ab-otile{position:relative;display:flex;border-radius:var(--r-ctl);overflow:hidden;margin-top:20px;height:172px;
+  background:linear-gradient(115deg,#C4141A 0%,#E2252E 45%,#EA394B 100%)}
+.ab-otile .l{flex:1;min-width:0;padding:16px 16px 14px;display:flex;flex-direction:column}
+.ab-otile .l b{font:700 21px/1.1 'Inter',sans-serif;color:#fff;letter-spacing:-.01em}
+.ab-otile .l small{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:4px}
+.ab-otile .l ul{list-style:none;margin-top:auto;display:flex;flex-direction:column;gap:6px}
+.ab-otile .l li{display:flex;align-items:center;gap:7px;font-size:13px;color:#fff}
+.ab-otile .l li svg{width:15px;height:15px;stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ab-otile img{width:46%;height:100%;object-fit:cover;object-position:100% 50%;display:block}
+.ab-cmp{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.ab-cmprow{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--ab-card);border:2px solid transparent;border-radius:var(--r-ctl);padding:11px 16px}
+.ab-cmprow.on{border-color:var(--ab-red)}
+.ab-cmprow .k{font:600 15px/1.2 'Inter',sans-serif;color:var(--ab-ink)}
+.ab-cmprow .k small{display:block;font:400 12.5px/1.3 'Inter',sans-serif;color:var(--ab-muted);margin-top:3px}
+.ab-cmprow .v{text-align:right;font:700 16px/1.2 'Inter',sans-serif;color:var(--ab-ink);white-space:nowrap}
+.ab-cmprow .v small{display:block;font:400 12px/1.3 'Inter',sans-serif;color:var(--ab-muted);margin-top:3px}
+.ab-cmprow.off .v{color:var(--ab-txt)}
+
+/* home — their red header and cards */
+.scr--home{background:var(--ab-bg)}
+.ab-hhead{flex:none;background:var(--ab-red);padding:58px 22px 26px;display:flex;align-items:center;justify-content:space-between}
+.ab-hhead svg{width:24px;height:24px;color:#fff}
+.ab-hhead .r{display:flex;gap:26px}
+.ab-hbody{flex:1;min-height:0;margin-top:-14px;border-radius:18px 18px 0 0;background:var(--ab-bg);padding:18px 18px 0;overflow:hidden}
+.ab-nc{text-align:center;font-size:14px;color:var(--ab-orange)}
+.ab-hgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.ab-hcard{height:150px;border-radius:var(--r-media);background:var(--ab-card);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px}
+.ab-hcard img{height:36px;display:block;margin-bottom:10px}
+.ab-hcard b{font:700 17px/1.2 'Inter',sans-serif;color:var(--ab-ink)}
+.ab-hcard span{font-size:12px;line-height:1.3;color:var(--ab-txt);margin-top:4px}
+.ab-pro{margin-top:18px;display:flex;align-items:center;gap:12px;background:var(--ab-card);border-radius:var(--r-ctl);padding:12px 14px;font-size:13.5px;color:var(--ab-ink)}
+.ab-pro img{width:34px;height:34px;border-radius:8px;display:block}
+.ab-pro span{color:var(--ab-muted);display:block;font-size:12px;margin-top:2px}
+
+/* light mode — an approximation: AirBeamTV ships dark only */
+.phone-in.light{--ab-bg:#F2F2F7;--ab-card:#FFFFFF;--ab-sel:#FFFFFF;--ab-line:#E3E3E8;--ab-ink:#111114;--ab-txt:#4A4A52;--ab-muted:#8A8A90;background:var(--ab-bg)}
+.phone-in.light .screenwrap{background:var(--ab-bg)}
+.phone-in.light .ab-photo::after{background:linear-gradient(180deg,rgba(242,242,247,0) 38%,rgba(242,242,247,.6) 66%,#F2F2F7 100%)}
+.phone-in.light .ab-photo.short::after{background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.25))}
+.phone-in.light .ab-tile,.phone-in.light .ab-yr,.phone-in.light .ab-plan,.phone-in.light .ab-card,.phone-in.light .ab-proof div,
+.phone-in.light .ab-ls,.phone-in.light .ab-cmprow,.phone-in.light .ab-feat,.phone-in.light .ab-hcard,.phone-in.light .ab-pro{box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.phone-in.light .ab-ck,.phone-in.light .ab-radio,.phone-in.light .ab-ls .d{border-color:#C7C7CC}
+.phone-in.light .ab-ls{color:#AEAEB2}
+.phone-in.light .ab-links a{color:#9A9AA0}
+.phone-in.light .ab-btn[disabled]{background:#F3B9C0;color:#fff}
+.phone-in.light .ab-back{color:#111114}
+.phone-in.light .ab-spin rect{fill:#3A3A3C}
+
+/* prototype toolbar, walkthrough, QR */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#1A1A1C;border:1px solid #2C2C30;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:600 12px/1 'Inter',sans-serif;color:var(--ink2);transition:.14s}
+.seg button.on{background:var(--ink);color:#0A0A0B}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--accent);color:#fff;
+  font:700 12px/1 'Inter',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--hair);border-radius:16px;padding:14px 14px 12px;
+  display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#EEF0F1}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:#15151A;margin:0;font-weight:500}
+.demo-cap button{font:700 12px/1 'Inter',sans-serif;color:#3A3A40;padding:7px 10px;border-radius:12px;border:1px solid #E1E4E6;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.3);
+  border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.4);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(255,255,255,.5)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:135px;height:135px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:#4A4A52}
+.qr b{display:block;color:#15151A;font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .chiphint{order:4} #view-proto .qr{order:5}
+.cta-row .qr{order:2}
+/* on a phone: the prototype is the screen */
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:16px}
+  #view-proto .scr-foot{padding-bottom:18px}
+  #view-proto .ab-x{top:16px}
+  #view-proto .ab-photo{top:-40px}
+  #view-proto .ab-spacer{height:180px}
+  #view-proto .ab-loadwrap{padding-top:228px}
+  #view-proto .ab-oh{margin-top:40px}
+  #view-proto .ab-hhead{padding-top:18px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .chiphint{order:5}
+}
+
+/* overview: walkthrough button */
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#18181A;border:1px solid var(--hair2);color:var(--ink);font-size:14px;
+  font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;transition:.16s}
+.ghostbtn:hover{background:#1F1F22}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #2C2C30;background:#161618;
+  font:600 12px/1 'Inter',sans-serif;color:var(--ink2);transition:.14s}
+.chip:hover{color:var(--ink);border-color:#45454B}
+.chip.offer{border-style:dashed;border-color:var(--accent);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E2E35;margin:16px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E2E35;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);
+  padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <img src="img/icon.png" alt="AirBeamTV">
+      <b>Growth Audit</b><span>· AirBeamTV</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Overview</button>
+      <button data-view="proto">Prototype</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Growth Audit · October 2026</div>
+    <h1>AirBeamTV</h1>
+    <p class="lede">Five ideas to unlock more revenue from the traffic you already have.</p>
+    <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow for Screen Mirroring Samsung TV and your App Store listing</div>
+    <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+    <div class="stats">
+      <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+      <div class="stat"><b>5</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+      <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+    </div>
+
+    <div class="fb">
+      <div class="fb-k">Built in Adapty Flow Builder</div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p>
+      </div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">What this is</div>
+    <h2>We opened Screen Mirroring Samsung TV the way a new user does, then rebuilt the parts we think are leaving money on the table.</h2>
+    <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we get to see what actually moves conversion and ARPU across the market rather than inside one app. We pointed that at your flagship: installed it, went through the first screens and the paywall, read your App Store listing and your website, and looked for gaps between what you already have and what you currently show people.</p>
+    <p class="body">What follows is five ideas — not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+
+    <div class="notes">
+      <div class="note">
+        <h4>We did not redesign your app</h4>
+        <p>Every screen in the prototype is yours — the TV-in-a-room photography, your red pill button, your plan rows with the red ring, your home-screen cards and your Special Offer tile. Only the order changed, plus a few things you already own but do not show at the right moment.</p>
+      </div>
+      <div class="note">
+        <h4>You may have tested some of this</h4>
+        <p>We are working from the outside, so we cannot see your experiment history. If one of these is something you have already run, tell us — we will go deeper on the rest rather than repeat it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">The five ideas</div>
+    <h2>Ranked by what we would test first.</h2>
+    <p class="body">Each one links straight to the screen in the prototype.</p>
+
+    <div class="ideas">
+      <button class="idea" data-jump="offer">
+        <span class="no">01</span>
+        <span>
+          <h3>Offer the 14,99&nbsp;€ year when they close</h3>
+          <p>Close the paywall today and you land on the home screen. Your yearly plan costs about what two weeks of the weekly plan do, which makes it the strongest second chance you have. Nobody who taps the X sees it, and the Special Offer tile on home does not say what it costs.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>second chance</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">02</span>
+        <span>
+          <h3>Show all three prices before Apple’s sheet</h3>
+          <p>The first paywall says “Get full access to all features” and nothing else. Continue opens Apple’s sheet for 6,99&nbsp;€ a week. The 14,99&nbsp;€ year and the 89,99&nbsp;€ lifetime only appear after someone cancels that sheet.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +5–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">03</span>
+        <span>
+          <h3>Name their TV and what they’ll watch</h3>
+          <p>Every paywall says “Choose Your Plan for Screen Mirroring”. Someone who came for live sports on a 2019 Samsung should read exactly that, over the same room photo with the game on the TV.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +15–20%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="tv">
+        <span class="no">04</span>
+        <span>
+          <h3>Ask two questions and check their TV</h3>
+          <p>The onboarding asks nothing. “Will it work with my TV?” is the question every review answers, and your App Store listing already has the model-year letters from E (2012) to C (2023). Ask for that letter and what they’ll watch, then confirm both while it loads.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="ready">
+        <span class="no">05</span>
+        <span>
+          <h3>Show your own proof before the price</h3>
+          <p>20+ million downloads, a 4.2 from 13K ratings and support that usually replies within 6 hours. None of it appears in the flow; the support promise sits in the FAQ, behind the info button on home.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Potential outcome</div>
+        <p>Run together, these five work on the same paywall from three sides: what people know before they see a price, what the price screen says, and what happens when they say no.</p>
+        <p><b>Potential result: revenue up to +30%.</b></p>
+      </div>
+      <div class="nums">
+        <div><b>+25%</b><span>CR to purchase</span></div>
+        <div><b>+15%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="qr"><img src="img/qr.svg?v=1" alt="QR code for the prototype"><span><b>Or open it on your phone</b>Scan to try the flow in your hand.</span></div>
+      <button class="bigbtn" data-view="proto">Open the prototype
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps — not measured lift for AirBeamTV. Every price, rating, quote and feature line here and in the prototype comes from AirBeamTV's own App Store listing, website and in-app screens.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools" id="tools">
+      <div class="seg" id="segLang"><button data-lang="en" class="on">EN</button><button data-lang="nl">NL</button><button data-lang="de">DE</button></div>
+      <div class="seg" id="segTheme"><button data-theme="light">Light</button><button data-theme="dark" class="on">Dark</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar" id="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="screenwrap">
+
+<!-- INTRO (their three-slide carousel, untouched) -->
+<section class="scr scr--intro" data-id="intro" data-photo="1">
+  <div class="ab-photo"><img id="introImg" src="img/tv-photos.jpg" alt=""></div>
+  <div class="scr-top" style="padding:0"></div>
+  <div class="scr-body"></div>
+  <div class="scr-foot">
+    <h2 class="ab-ih" id="introH"></h2>
+    <p class="ab-is" id="introS"></p>
+    <button class="ab-btn" id="introBtn" data-t="cont"></button>
+    <div style="height:22px"></div>
+  </div>
+</section>
+
+<!-- WATCH -->
+<section class="scr" data-id="watch">
+  <div class="scr-top">
+    <div class="ab-nav">
+      <button class="ab-back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="ab-prog"><i style="width:50%"></i></div>
+    </div>
+    <h2 class="ab-h" data-t="w.h"></h2>
+    <p class="ab-sub" data-t="w.s"></p>
+  </div>
+  <div class="scr-body"><div class="ab-tiles" id="useGrid"></div><div style="height:10px"></div></div>
+  <div class="scr-foot"><button class="ab-btn" data-go="tv" data-t="cont"></button></div>
+</section>
+
+<!-- TV MODEL -->
+<section class="scr" data-id="tv">
+  <div class="scr-top">
+    <div class="ab-nav">
+      <button class="ab-back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="ab-prog"><i style="width:100%"></i></div>
+    </div>
+    <h2 class="ab-h" data-t="tv.h"></h2>
+    <p class="ab-sub" data-th="tv.s"></p>
+  </div>
+  <div class="scr-body"><div class="ab-yrs" id="yrGrid"></div><div style="height:10px"></div></div>
+  <div class="scr-foot"><button class="ab-btn" data-go="loader" data-t="cont"></button></div>
+</section>
+
+<!-- LOADER -->
+<section class="scr" data-id="loader" data-photo="1">
+  <div class="ab-photo short"><img class="useImg" src="img/tv-sports.jpg" alt=""></div>
+  <div class="scr-top" style="padding-top:0"></div>
+  <div class="scr-body">
+    <div class="ab-loadwrap">
+      <svg class="ab-spin" viewBox="0 0 44 44" id="spin"></svg>
+      <h2 class="ab-load-h" data-t="load.h"></h2>
+      <div class="ab-lsteps" id="loadSteps">
+        <div class="ab-ls"><span class="d"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">—</span></div>
+        <div class="ab-ls"><span class="d"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">—</span></div>
+        <div class="ab-ls"><span class="d"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">—</span></div>
+      </div>
+      <div class="ab-quote"><div class="st">★★★★★</div><p id="qText">—</p><b id="qWho">—</b></div>
+    </div>
+  </div>
+  <div class="scr-foot" style="background:transparent"></div>
+</section>
+
+<!-- READY (payoff) -->
+<section class="scr" data-id="ready" data-photo="1">
+  <div class="ab-photo"><img class="useImg" src="img/tv-sports.jpg" alt=""></div>
+  <div class="scr-top" style="padding-top:0">
+    <div class="ab-spacer"></div>
+    <div class="ab-sheettop"><h2 class="ab-payh" id="readyH"></h2></div>
+  </div>
+  <div class="scr-body" style="background:var(--ab-bg)">
+    <div class="ab-card">
+      <div class="ab-step"><i>1</i><span data-t="rd.1"></span></div>
+      <div class="ab-step"><i>2</i><span data-t="rd.2"></span></div>
+      <div class="ab-step"><i>3</i><span id="rd3"></span></div>
+    </div>
+    <div class="ab-drm" id="drm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/></svg><span data-t="rd.drm"></span></div>
+    <div class="ab-proof">
+      <div><b>20M+</b><span data-t="pf.dl"></span></div>
+      <div><b><span data-t="pf.r"></span> <span class="st">★</span></b><span data-t="pf.rs"></span></div>
+      <div><b data-t="pf.h"></b><span data-t="pf.hs"></span></div>
+    </div>
+    <div style="height:8px"></div>
+  </div>
+  <div class="scr-foot"><button class="ab-btn" data-go="paywall" data-t="cont"></button></div>
+</section>
+
+<!-- PAYWALL -->
+<section class="scr" data-id="paywall" data-photo="1">
+  <div class="ab-photo"><img class="useImg" src="img/tv-sports.jpg" alt=""></div>
+  <button class="ab-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top" style="padding-top:0">
+    <div class="ab-spacer"></div>
+    <div class="ab-sheettop">
+      <h2 class="ab-payh" id="payH"></h2>
+      <div class="ab-proofline"><span class="st">★</span><span data-t="pw.proof"></span></div>
+    </div>
+  </div>
+  <div class="scr-body" style="background:var(--ab-bg)">
+    <div class="ab-feats" id="featList"></div>
+    <div class="ab-plans" id="planList">
+      <button class="ab-plan" data-v="week"><span class="ab-radio"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span><span class="t" data-t="pw.w"></span></span></button>
+      <button class="ab-plan tall" data-v="year"><span class="ab-radio"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span><span class="t" data-t="pw.y"></span><span class="s" data-th="pw.ys"></span></span></button>
+      <button class="ab-plan tall" data-v="life"><span class="ab-radio"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span><span class="t">89,99&nbsp;€</span><span class="s" data-t="pw.ls"></span></span></button>
+    </div>
+    <div style="height:6px"></div>
+  </div>
+  <div class="scr-foot">
+    <p class="ab-helper" id="payHelp"></p>
+    <button class="ab-btn" id="payCta" data-t="cont"></button>
+    <div class="ab-links"><a data-t="lg.rest"></a><a data-t="lg.terms"></a><a data-t="lg.priv"></a></div>
+  </div>
+</section>
+
+<!-- OFFER ON CLOSE -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <button class="ab-x" id="offClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top">
+    <h2 class="ab-oh" data-t="of.h"></h2>
+    <p class="ab-os" data-t="of.s"></p>
+  </div>
+  <div class="scr-body">
+    <div class="ab-otile">
+      <div class="l">
+        <b data-t="of.tile"></b><small data-t="of.all"></small>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg><span data-t="of.ads"></span></li>
+          <li><svg viewBox="0 0 24 24"><circle cx="8" cy="6" r="2.5"/><circle cx="16" cy="6" r="2.5"/><path d="M5 21v-7l-1-4h8l-1 4v7M13 21v-7l-1-4h8l-1 4v7"/></svg><span data-t="of.fam"></span></li>
+        </ul>
+      </div>
+      <img src="img/offer-collage.jpg" alt="">
+    </div>
+    <div class="ab-cmp">
+      <div class="ab-cmprow off"><span class="k" data-t="of.wk"></span><span class="v"><span data-t="of.wkv"></span><small data-t="of.wky"></small></span></div>
+      <div class="ab-cmprow on"><span class="k" data-t="of.yr"></span><span class="v">14,99&nbsp;€<small data-t="of.yrw"></small></span></div>
+    </div>
+    <div style="height:6px"></div>
+  </div>
+  <div class="scr-foot">
+    <p class="ab-helper" data-t="pw.auto"></p>
+    <button class="ab-btn" id="offerCta" data-t="of.cta"></button>
+    <button class="ab-ghost" id="offNo" data-t="of.no"></button>
+  </div>
+</section>
+
+<!-- HOME -->
+<section class="scr scr--home" data-id="home" data-photo="1">
+  <div class="ab-hhead">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5c-4.5-.3-8.3 1.6-11 5.4L6 9.2 3.5 12l3.4 1.1-.9 1.4 3.5 3.5 1.4-.9 1.1 3.4 2.8-2.5.3-3.5c3.8-2.7 5.7-6.5 5.4-11Zm-5 6.4a1.9 1.9 0 1 1 0-3.8 1.9 1.9 0 0 1 0 3.8ZM5 17c-1.4.6-2 2.6-2 4 1.4 0 3.4-.6 4-2l-2-2Z"/></svg>
+    <span class="r">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6M3 13a7 7 0 0 1 7 7M3 17a3 3 0 0 1 3 3"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 10.5v6M12 7.2v.3" stroke="#EA394B" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </span>
+  </div>
+  <div class="ab-hbody">
+    <p class="ab-nc" data-t="hm.nc"></p>
+    <div class="ab-hgrid">
+      <div class="ab-hcard"><img src="img/ic-mirror.png" alt=""><b data-t="hm.m"></b><span data-t="hm.ms"></span></div>
+      <div class="ab-hcard"><img src="img/ic-photos.png" alt=""><b data-t="hm.p"></b><span data-t="hm.ps"></span></div>
+      <div class="ab-hcard"><img src="img/ic-browser.png" alt=""><b data-t="hm.b"></b></div>
+      <div class="ab-hcard"><img src="img/ic-remote.png" alt=""><b data-t="hm.r"></b><span data-t="hm.rs"></span></div>
+    </div>
+    <div class="ab-pro"><img src="img/icon.png" alt=""><div><b id="homePro"></b><span id="homeTv"></span></div></div>
+  </div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to any screen — answers already filled in.</p>
+    <div class="qr"><img src="img/qr.svg?v=1" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the flow in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+/* ================= copy, per language (phone screens only) ================= */
+var LANGS = ['en','nl','de'];
+var T = {
+ 'cont':   ["Continue","Doorgaan","Weiter"],
+ 'i0.h':   ["Cast Your Favorite Photos & Videos","Cast je favoriete foto’s & video’s","Deine Lieblingsfotos & -videos auf den TV"],
+ 'i0.s':   ["Experience the Joy: Casting Your Treasured Photos & Videos","Geniet ervan: cast je dierbaarste foto’s & video’s","Erlebe die Freude: deine liebsten Fotos & Videos auf dem TV"],
+ 'i1.h':   ["Watch Live & Web Videos on Your TV","Kijk live- & webvideo’s op je tv","Live- & Webvideos auf deinem TV"],
+ 'i1.s':   ["Elevate Your TV Experience: Access LIVE & WEB Videos Like Never Before","Meer uit je tv: LIVE- & WEB-video’s als nooit tevoren","Mehr aus deinem TV: LIVE- & WEB-Videos wie nie zuvor"],
+ 'i2.h':   ["Mirror Your Screen Without Any Delay","Spiegel je scherm zonder vertraging","Bildschirm ohne Verzögerung spiegeln"],
+ 'i2.s':   ["Real-Time Screen Mirroring: Effortless Replication with Zero Delay","Schermspiegeling in realtime: moeiteloos en zonder vertraging","Bildschirmspiegelung in Echtzeit: mühelos und ohne Verzögerung"],
+ 'w.h':    ["What Will You Watch on Your TV?","Wat ga je op je tv kijken?","Was willst du auf dem TV schauen?"],
+ 'w.s':    ["We’ll set the app up for it.","Dan stellen we de app daarop in.","Wir richten die App darauf ein."],
+ 'tv.h':   ["Which Samsung TV Do You Have?","Welke Samsung-tv heb je?","Welchen Samsung-TV hast du?"],
+ 'tv.s':   ["Find the middle letter of the model number on the back of your TV. UE78<b>H</b>U8500L is a 2014.","Zoek de middelste letter van het modelnummer achter op je tv. UE78<b>H</b>U8500L is uit 2014.","Such den mittleren Buchstaben der Modellnummer hinten am TV. UE78<b>H</b>U8500L ist von 2014."],
+ 'tv.ns':  ["Not sure","Weet ik niet","Weiß nicht"],
+ 'tv.gen': ["Samsung TV","Samsung-tv","Samsung-TV"],
+ 'tv.yr':  ["{y} Samsung","Samsung uit {y}","Samsung von {y}"],
+ 'load.h': ["Getting Your TV Ready","Je tv wordt klaargezet","Dein TV wird vorbereitet"],
+ 'load.tv':["{tv} ({l}): supported","{tv} ({l}): ondersteund","{tv} ({l}): unterstützt"],
+ 'load.tvn':["Samsung Smart TVs from 2012 on: supported","Samsung Smart TV’s vanaf 2012: ondersteund","Samsung Smart TVs ab 2012: unterstützt"],
+ 'load.u': ["{u}: sound on, up to 1080p","{u}: met geluid, tot 1080p","{u}: mit Ton, bis 1080p"],
+ 'load.w': ["Next: phone and TV on the same Wi‑Fi","Daarna: telefoon en tv op hetzelfde wifi","Dann: Handy und TV im selben WLAN"],
+ 'rd.h':   ["Your {tv} Is Ready for {x}","Je {tv} is klaar voor {x}","Dein {tv} ist bereit für {x}"],
+ 'rd.1':   ["Phone and TV on the same Wi‑Fi","Telefoon en tv op hetzelfde wifi","Handy und TV im selben WLAN"],
+ 'rd.2':   ["First time only: press OK on your TV remote","Alleen de eerste keer: druk op OK op je afstandsbediening","Nur beim ersten Mal: OK auf der TV-Fernbedienung drücken"],
+ 'rd.3':   ["Start mirroring, then open {a}","Start het spiegelen en open {a}","Spiegeln starten, dann {a} öffnen"],
+ 'rd.drm': ["Netflix, Disney+ and Apple TV+ block mirroring. YouTube and your browser work.","Netflix, Disney+ en Apple TV+ blokkeren spiegelen. YouTube en je browser werken wel.","Netflix, Disney+ und Apple TV+ blockieren das Spiegeln. YouTube und dein Browser funktionieren."],
+ 'pf.dl':  ["downloads","downloads","Downloads"],
+ 'pf.r':   ["4.2","4,2","4,2"],
+ 'pf.rs':  ["13K ratings","13K beoordelingen","13K Bewertungen"],
+ 'pf.h':   ["6 hours","6 uur","6 Std."],
+ 'pf.hs':  ["usual support reply","gebruikelijke reactietijd","übliche Antwortzeit"],
+ 'pw.h':   ["{x} on Your {tv}","{x} op je {tv}","{x} auf deinem {tv}"],
+ 'pw.proof':["4.2 · 13K ratings · 20M+ downloads","4,2 · 13K beoordelingen · 20M+ downloads","4,2 · 13K Bewertungen · 20M+ Downloads"],
+ 'pw.w':   ["6,99\u00a0€ per week","6,99\u00a0€ per week","6,99\u00a0€ pro Woche"],
+ 'pw.y':   ["14,99\u00a0€ per year","14,99\u00a0€ per jaar","14,99\u00a0€ pro Jahr"],
+ 'pw.ys':  ["<em>Just 0,29\u00a0€ a week</em>","<em>Maar 0,29\u00a0€ per week</em>","<em>Nur 0,29\u00a0€ pro Woche</em>"],
+ 'pw.ls':  ["One time payment, yours forever","Eenmalige betaling, voor altijd van jou","Einmalzahlung, für immer deins"],
+ 'pw.auto':["Auto-renewable. Cancel Anytime.","Wordt automatisch verlengd. Altijd opzegbaar.","Verlängert sich automatisch. Jederzeit kündbar."],
+ 'pw.once':["One payment. No subscription.","Eenmalig betalen. Geen abonnement.","Einmal zahlen. Kein Abo."],
+ 'f.snd':  ["Sound","Geluid","Ton"], 'f.hd':["Up to 1080p","Tot 1080p","Bis 1080p"], 'f.ads':["No ads","Geen advertenties","Keine Werbung"], 'f.fam':["Family Sharing","Delen met gezin","Familienfreigabe"],
+ 'lg.rest':["Restore","Herstellen","Wiederherstellen"], 'lg.terms':["Terms","Voorwaarden","AGB"], 'lg.priv':["Privacy","Privacy","Datenschutz"],
+ 'of.h':   ["A Whole Year for 14,99\u00a0€","Een heel jaar voor 14,99\u00a0€","Ein ganzes Jahr für 14,99\u00a0€"],
+ 'of.s':   ["About what two weeks of the weekly plan cost.","Ongeveer wat twee weken van het weekabonnement kosten.","Etwa so viel wie zwei Wochen im Wochen-Abo."],
+ 'of.tile':["Yearly Plan","Jaarplan","Jahres-Abo"],
+ 'of.all': ["All Features","Alle functies","Alle Funktionen"],
+ 'of.ads': ["No Ads","Geen advertenties","Keine Werbung"],
+ 'of.fam': ["Family Sharing","Delen met gezin","Familienfreigabe"],
+ 'of.wk':  ["Weekly","Per week","Wöchentlich"],
+ 'of.wkv': ["6,99\u00a0€ a week","6,99\u00a0€ per week","6,99\u00a0€ pro Woche"],
+ 'of.wky': ["363,48\u00a0€ over a year","363,48\u00a0€ over een jaar","363,48\u00a0€ in einem Jahr"],
+ 'of.yr':  ["Yearly","Per jaar","Jährlich"],
+ 'of.yrw': ["0,29\u00a0€ a week","0,29\u00a0€ per week","0,29\u00a0€ pro Woche"],
+ 'of.cta': ["Get the Year for 14,99\u00a0€","Neem het jaar voor 14,99\u00a0€","Jahr für 14,99\u00a0€ holen"],
+ 'of.no':  ["No thanks","Nee, bedankt","Nein, danke"],
+ 'hm.nc':  ["Not connected","Niet verbonden","Nicht verbunden"],
+ 'hm.m':   ["Screen Mirror","Scherm spiegelen","Bildschirm spiegeln"], 'hm.ms':["Mirror your phone screen to your TV","Spiegel je telefoonscherm naar je tv","Spiegle dein Handy auf den TV"],
+ 'hm.p':   ["Photos","Foto’s","Fotos"], 'hm.ps':["Cast Photos/Videos to your TV","Cast foto’s/video’s naar je tv","Fotos/Videos auf den TV streamen"],
+ 'hm.b':   ["Browser","Browser","Browser"],
+ 'hm.r':   ["Remote Control","Afstandsbediening","Fernbedienung"], 'hm.rs':["Control your TV","Bedien je tv","Steuere deinen TV"],
+ 'hm.pro': ["Pro is active","Pro is actief","Pro ist aktiv"],
+ 'hm.tv':  ["Looking for your {tv}…","Je {tv} wordt gezocht…","Suche deinen {tv}…"]
+};
+/* the four answers — wording from their own slides, listing and website */
+var USES = [
+  {k:'photos', img:'img/tv-photos.jpg', ic:'img/ic-photos.png',
+   l:[['Photos & Videos','From your camera roll'],['Foto’s & video’s','Uit je filmrol'],['Fotos & Videos','Aus deiner Mediathek']],
+   x:['Your Photos','Je foto’s','Deine Fotos'], rx:['Your Photos','je foto’s','deine Fotos'], a:['Photos','Foto’s','Fotos']},
+  {k:'sports', img:'img/tv-sports.jpg', ic:'img/ic-browser.png',
+   l:[['Live Sports','Streams and web video'],['Live sport','Streams en webvideo'],['Live-Sport','Streams und Webvideos']],
+   x:['Live Sports','Live sport','Live-Sport'], rx:['Live Sports','live sport','Live-Sport'], a:['your stream','je stream','deinen Stream']},
+  {k:'movies', img:'img/tv-racing.jpg', ic:'img/ic-mirror.png',
+   l:[['Movies & YouTube','From apps and the browser'],['Films & YouTube','Uit apps en de browser'],['Filme & YouTube','Aus Apps und dem Browser']],
+   x:['Movies & YouTube','Films & YouTube','Filme & YouTube'], rx:['Movies & YouTube','films & YouTube','Filme & YouTube'], a:['YouTube','YouTube','YouTube']},
+  {k:'work', img:'img/tv-photos.jpg', svg:true,
+   l:[['Presentations','Slides and video calls'],['Presentaties','Slides en videocalls'],['Präsentationen','Folien und Videocalls']],
+   x:['Your Slides','Je presentaties','Deine Folien'], rx:['Your Presentations','je presentaties','deine Präsentationen'], a:['your slides','je presentatie','deine Folien']}
+];
+var USE = {}; USES.forEach(function(u){ USE[u.k]=u; });
+/* model-year letters, verbatim from their App Store listing */
+var YEARS = [['E',2012],['F',2013],['H',2014],['J',2015],['K',2016],['M',2017],['N',2018],['R',2019],['T',2020],['A',2021],['B',2022],['C',2023],['Q','QLED'],['ns']];
+var YR = {}; YEARS.forEach(function(y){ YR[y[0]]=y; });
+var INTRO = [{img:'img/tv-photos.jpg',k:'i0'},{img:'img/tv-sports.jpg',k:'i1'},{img:'img/tv-racing.jpg',k:'i2'}];
+/* verbatim, original language: App Store (US + NL storefronts) and airbeam.tv */
+var QUOTES = [
+  ['Great! At first i couldnt find my tv, but someone from the app immediatly helped me and now i can fully enjoy from my samsung tv!','maiiilaiii · App Store'],
+  ['Echt handig. Niet ingewikkeld. Als je tel en tv via zelfde wifi is verbonden dan gaat alles van zelf.','AdoGizo · App Store'],
+  ['I went through a lot of apps but they either had a lot of lagging or was a lot of ads this is the first true great TV mirror app I’ve came across.','DraperTheDog · airbeam.tv']
+];
+var PRES_SVG='<svg class="ic" viewBox="0 0 48 38"><rect x="2" y="2" width="44" height="28" rx="3" fill="#EA394B"/><rect x="11" y="17" width="5" height="8" rx="1" fill="#fff"/><rect x="21.5" y="11" width="5" height="14" rx="1" fill="#fff"/><rect x="32" y="7" width="5" height="18" rx="1" fill="#fff"/><path d="M24 30v6M16 36h16" stroke="#EA394B" stroke-width="3" stroke-linecap="round"/></svg>';
+
+/* ================= state ================= */
+function defaults(){ return { lang:S0.lang, theme:S0.theme, slide:0, use:'sports', tv:'R', plan:'week' }; }
+var S0 = {lang:'en', theme:'dark'};
+var S = defaults();
+function L(){ return LANGS.indexOf(S.lang); }
+function t(k,v){ var s=(T[k]||[k])[L()]; if(v) Object.keys(v).forEach(function(x){ s=s.split('{'+x+'}').join(v[x]); }); return s; }
+function tvName(){ var y=YR[S.tv]; if(S.tv==='ns') return t('tv.gen'); if(S.tv==='Q') return 'Samsung QLED'; return t('tv.yr',{y:y[1]}); }
+
+/* ================= marks ================= */
+(function(){ var h=''; for(var i=0;i<8;i++){ h+='<rect x="20.5" y="3" width="3" height="10" rx="1.5" fill="#8E8E93" opacity="'+(0.25+i*0.1)+'" transform="rotate('+(i*45)+' 22 22)"/>'; } document.getElementById('spin').innerHTML=h; })();
+
+/* ================= builders (re-run on language change) ================= */
+var ckh='<span class="ab-ck"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>';
+function buildUses(){ var g=document.getElementById('useGrid'); g.innerHTML='';
+  USES.forEach(function(u){ var b=document.createElement('button'); b.className='ab-tile'; b.dataset.v=u.k;
+    b.innerHTML=ckh+(u.svg?PRES_SVG:'<img src="'+u.ic+'" alt="">')+'<b>'+u.l[L()][0]+'</b><span>'+u.l[L()][1]+'</span>';
+    b.addEventListener('click',function(){ S.use=u.k; syncScreen(); }); g.appendChild(b); }); }
+function buildYears(){ var g=document.getElementById('yrGrid'); g.innerHTML='';
+  YEARS.forEach(function(y){ var b=document.createElement('button'); b.dataset.v=y[0];
+    if(y[0]==='ns'){ b.className='ab-yr wide'; b.innerHTML='<b>'+t('tv.ns')+'</b>'; }
+    else { b.className='ab-yr'; b.innerHTML='<b>'+y[0]+'</b><span>'+y[1]+'</span>'; }
+    b.addEventListener('click',function(){ S.tv=y[0]; syncScreen(); }); g.appendChild(b); }); }
+function applyStatic(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-t]').forEach(function(el){ el.textContent=t(el.dataset.t); });
+  document.querySelectorAll('[data-th]').forEach(function(el){ el.innerHTML=t(el.dataset.th); });
+  buildUses(); buildYears();
+}
+
+/* ================= everything downstream reads S ================= */
+var FEAT='<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>';
+function syncScreen(){
+  var li=L(), u=USE[S.use], y=YR[S.tv], tv=tvName();
+  /* intro */
+  var sl=INTRO[S.slide]; document.getElementById('introImg').src=sl.img;
+  document.getElementById('introH').textContent=t(sl.k+'.h'); document.getElementById('introS').textContent=t(sl.k+'.s');
+  /* questions */
+  document.querySelectorAll('#useGrid .ab-tile').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.use); });
+  document.querySelectorAll('#yrGrid .ab-yr').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.tv); });
+  /* the photo on loader, payoff and paywall follows what they watch */
+  document.querySelectorAll('.useImg').forEach(function(im){ if(im.getAttribute('src')!==u.img) im.src=u.img; });
+  /* loader reads both answers back */
+  var st=document.querySelectorAll('#loadSteps .ab-ls .t');
+  st[0].textContent = S.tv==='ns' ? t('load.tvn') : t('load.tv',{tv:tv,l:y[0]});
+  st[1].textContent = t('load.u',{u:u.l[li][0]});
+  st[2].textContent = t('load.w');
+  /* payoff */
+  document.getElementById('readyH').textContent=t('rd.h',{tv:tv,x:u.rx[li]});
+  document.getElementById('rd3').textContent=t('rd.3',{a:u.a[li]});
+  document.getElementById('drm').classList.toggle('hidden', S.use!=='movies');
+  /* paywall */
+  document.getElementById('payH').textContent=t('pw.h',{x:u.x[li],tv:tv});
+  document.getElementById('featList').innerHTML=['f.snd','f.hd','f.ads','f.fam'].map(function(k){ return '<span class="ab-feat">'+FEAT+t(k)+'</span>'; }).join('');
+  document.querySelectorAll('#planList .ab-plan').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.plan); });
+  var price={week:t('pw.w'),year:t('pw.y'),life:'89,99\u00a0€'}[S.plan];
+  document.getElementById('payHelp').innerHTML='<b>'+price+'</b><br>'+(S.plan==='life'?t('pw.once'):t('pw.auto'));
+  /* home */
+  document.getElementById('homePro').textContent=t('hm.pro');
+  document.getElementById('homeTv').textContent=t('hm.tv',{tv:tv});
+}
+
+/* ================= router ================= */
+var ORDER=['intro','watch','tv','loader','ready','paywall','offer','home'];
+var LABEL={intro:'Intro',watch:'What they watch',tv:'TV model',loader:'Loader',ready:'Ready',paywall:'Paywall',offer:'Offer on close',home:'Home'};
+var scr={}, hist=[], cur='intro', loadTimers=[];
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+
+function chrome(){ var light=S.theme==='light', ph=!!scr[cur].dataset.photo;
+  document.getElementById('sbar').classList.toggle('dark', light && !ph); document.getElementById('homebar').classList.toggle('dark',light); }
+function enter(id){ chrome(); paintChips(); paintPanel(); clearLoad(); if(id==='loader') runLoader(); }
+function go(id,opts){
+  opts=opts||{}; if(id===cur) return;
+  var from=scr[cur], to=scr[id];
+  if(!opts.back) hist.push(cur);
+  if(from){ from.classList.remove('is-active');
+    if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past'); }
+  if(to.classList.contains('sheet')) from.classList.add('is-active');
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  if(from && from.classList.contains('sheet')) from.classList.remove('is-active');
+  cur=id; enter(id);
+}
+function back(){
+  if(!hist.length) return;
+  var prev=hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur=prev; enter(prev);
+}
+function jump(id){
+  var i=ORDER.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=ORDER.slice(0,i<0?0:i);
+  if(id==='offer') scr.paywall.classList.add('is-active');
+  if(id==='intro') S.slide=0;
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id);
+}
+function paintChips(){
+  var c=document.getElementById('chips');
+  if(!c.children.length){
+    ORDER.forEach(function(id){
+      var b=document.createElement('button'); b.className='chip'+(id==='offer'?' offer':''); b.textContent=LABEL[id];
+      b.dataset.id=id; b.onclick=function(){ stopDemo(); jump(id); }; c.appendChild(b);
+    });
+  }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b.dataset.id===cur); });
+}
+
+function clearLoad(){ loadTimers.forEach(clearTimeout); loadTimers=[]; }
+function runLoader(){
+  var k=demo.on?0.48:1;
+  var steps=[].slice.call(document.querySelectorAll('#loadSteps .ab-ls'));
+  steps.forEach(function(s){ s.classList.remove('on'); });
+  function showQuote(i){ document.getElementById('qText').textContent='“'+QUOTES[i][0]+'”'; document.getElementById('qWho').textContent='— '+QUOTES[i][1]; }
+  showQuote(0);
+  steps.forEach(function(s,i){ loadTimers.push(setTimeout(function(){ s.classList.add('on'); },(700+i*1000)*k)); });
+  [1,2].forEach(function(i){ loadTimers.push(setTimeout(function(){ showQuote(i); },(1800+(i-1)*1800)*k)); });
+  loadTimers.push(setTimeout(function(){ if(cur==='loader') go('ready'); },5200*k));
+}
+
+/* ================= wiring ================= */
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ if(!b.disabled) go(b.dataset.go); }); });
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click',back); });
+document.getElementById('introBtn').addEventListener('click',function(){
+  if(S.slide<2){ S.slide++; syncScreen(); } else go('watch'); });
+document.querySelectorAll('#planList .ab-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('offer'); });
+document.getElementById('payCta').addEventListener('click',function(){ go('home'); });
+document.getElementById('offerCta').addEventListener('click',function(){ go('home'); });
+document.getElementById('offClose').addEventListener('click',function(){ go('home'); });
+document.getElementById('offNo').addEventListener('click',function(){ go('home'); });
+
+function setSeg(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on', b.dataset[attr]===val); }); }
+function setLang(l){ S.lang=l; S0.lang=l; setSeg('segLang','lang',l); applyStatic(); syncScreen(); paintPanel(); }
+function setTheme(th){ S.theme=th; S0.theme=th; document.getElementById('phoneIn').classList.toggle('light',th==='light'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segLang button').forEach(function(b){ b.addEventListener('click',function(){ stopDemo(); setLang(b.dataset.lang); }); });
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(txt){ document.getElementById('demoTxt').textContent=txt; }
+async function tap(sel,tok){
+  if(demo.tok!==tok) throw 0;
+  var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160);
+  if(demo.tok!==tok) throw 0;
+}
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  var keep={lang:S.lang,theme:S.theme}; S=defaults(); S.lang=keep.lang; S.theme=keep.theme; S.use='photos'; S.tv='ns';
+  applyStatic(); jump('intro');
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/280)+'%'; },200);
+  (async function(){
+    try{
+      cap('Your three intro slides, exactly as they ship.'); await pause(1100,tok);
+      await tap('#introBtn',tok); await pause(450,tok); await tap('#introBtn',tok); await pause(450,tok); await tap('#introBtn',tok);
+      cap('New: what they want on the TV. Say, live sports.'); await pause(650,tok);
+      await tap('#useGrid [data-v=sports]',tok); await pause(400,tok); await tap('[data-id=watch] .ab-btn',tok);
+      cap('New: their model-year letter, from your own App Store table.'); await pause(650,tok);
+      await tap('#yrGrid [data-v=R]',tok); await pause(400,tok); await tap('[data-id=tv] .ab-btn',tok);
+      cap('Both answers, read back while it gets ready.'); await pause(2900,tok);
+      cap('Their TV, their use, your setup steps and your own proof.'); await pause(1900,tok);
+      await tap('[data-id=ready] .ab-btn',tok);
+      cap('The paywall names their TV and shows all three prices up front.'); await pause(1500,tok);
+      await tap('#planList [data-v=year]',tok); await pause(650,tok); await tap('#planList [data-v=week]',tok); await pause(400,tok);
+      cap('They close it. The 14,99\u00a0€ year is the second chance.'); await tap('#payClose',tok); await pause(2300,tok);
+      cap('That is the flow: same screens, new order, a real price on close.');
+      finger.classList.remove('show'); await pause(2200,tok); stopDemo();
+    }catch(e){}
+  })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press');
+  document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+/* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
+var PANEL = {
+intro:{ctx:true,t:'Your three intro slides',
+ kept:'Untouched — the TV-in-a-room photography with the photos, the basketball game and the night drive on screen, your uppercase headlines and sublines word for word, and the red Continue pill.'},
+watch:{n:4,t:'Ask two questions and check their TV',
+ hyp:'Try asking what they want on the TV, <b>because the answer then picks the photo on the next screens and names their use on the paywall</b>. The four options come from your own slides, listing and website.',
+ kept:'Your home-screen cards, now used as answers — same dark tiles, red icons and bold titles. The red ring is the one from your plan rows.',
+ out:'CR +10–15%'},
+tv:{n:4,t:'Ask two questions and check their TV',
+ hyp:'Try asking for the model-year letter, <b>because “will it work with my TV?” is the doubt your reviews keep answering, and your listing already has the table from E (2012) to C (2023)</b>. Change the letter and the loader, the next screen and the paywall all change with it.',
+ kept:'Your plan-row surfaces and red selection ring. Every letter and year is verbatim from your App Store description.',
+ out:'CR +10–15%'},
+loader:{n:4,t:'Ask two questions and check their TV',
+ hyp:'Try reading both answers back while it gets ready, <b>because a loader only earns its seconds when the next screen is about them</b>. The three reviews are verbatim from your App Store pages and airbeam.tv, in the language they were written in.',
+ kept:'Your room photo with their pick on the TV, and an iOS-style spinner like the one you show between screens.',
+ out:'CR +10–15%'},
+ready:{n:5,t:'Show your own proof before the price',
+ hyp:'Try putting 20+ million downloads, your 4.2 from 13K ratings and your 6-hour support reply on the last screen before the price, <b>because today none of it appears in the flow and the support promise sits in the FAQ</b>. The three setup steps are from your own listing.',
+ kept:'Your “Choose Your Plan” composition — the room photo above a black sheet with rounded corners — reused so the payoff and the paywall read as one moment. Pick Movies & YouTube and your own DRM note appears.',
+ out:'CR +10–15%'},
+paywall:{n:2,t:'Show all three prices before Apple’s sheet',
+ hyp:'Try your plan picker as the first paywall, <b>because today Continue opens Apple’s sheet for 6,99\u00a0€ a week before any price is on screen, and the 14,99\u00a0€ year only shows up after a cancel</b>. Weekly stays selected, so nothing changes for people who want it.',
+ n2:3, t2:'Name their TV and what they’ll watch',
+ hyp2:'Try naming their TV and their use in the headline, with their pick on the TV in your room photo, <b>because “Choose Your Plan for Screen Mirroring” is the same for everyone</b>. Go back and pick Photos & Videos and the paywall changes.',
+ out:'CR +5–15%', out2:'CR +15–20%',
+ kept:'Your room photo and close button, the black sheet, your three plan rows with the red ring and check, your red Continue pill and the small uppercase links. “Auto-renewable. Cancel Anytime.” is your line.'},
+offer:{n:1,t:'Offer the 14,99\u00a0€ year when they close',
+ hyp:'Try showing your yearly plan when someone taps the X, <b>because today the X goes straight to home and your cheapest commitment is never offered</b>. 14,99\u00a0€ is your own in-app price and the weekly maths is 6,99\u00a0€ × 52, so nothing here is invented. No timer.',
+ kept:'Your Special Offer tile from the home screen — the red gradient, the photo collage with your PRO mark, “No Ads” and “Family Sharing” — grown into a screen.',
+ out:'ARPU +10–15%'},
+home:{ctx:true,t:'Home',
+ kept:'Where the flow hands over to the app. Notifications and the local-network prompt stay where they are today, after the paywall; the TV they named is what home starts looking for.'}
+};
+
+function outBlock(lab,val){
+  return '<div class="pn-out"><div class="lab">'+lab+'</div><div class="v">'+val+'</div></div>';
+}
+function paintPanel(){
+  var d=PANEL[cur]; if(!d) return;
+  var h='';
+  if(d.ctx){
+    h += '<div class="pn-n ctx">Context · no change proposed</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<div class="pn-kept">'+d.kept+'</div>';
+  } else {
+    h += '<div class="pn-n">Idea '+d.n+' of 5</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<p class="pn-hyp">'+d.hyp+'</p>'
+       + outBlock('Potential outcome · based on Adapty data', d.out);
+    if(d.hyp2){
+      h += '<div class="pn-sep"></div>'
+         + '<div class="pn-n">Idea '+d.n2+' of 5</div><h3 class="pn-t">'+d.t2+'</h3>'
+         + '<p class="pn-hyp">'+d.hyp2+'</p>'
+         + outBlock('Potential outcome · based on Adapty data', d.out2);
+    }
+    h += '<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  }
+  if(S.lang!=='en') h += '<div class="pn-kept"><b>Language.</b> Screens are shown in '+(S.lang==='nl'?'Dutch':'German')+' to show one flow serving every market. Translated by us; store prices stay as published in euros and the reviews stay verbatim.</div>';
+  if(S.theme==='light') h += '<div class="pn-kept"><b>Light mode.</b> Your app ships dark only, so this is our approximation in your colours.</div>';
+  h += '<div class="pn-foot">Ranges are Adapty’s expected effect from tests across 30,000+ subscription apps — not measured lift for AirBeamTV. '
+     + 'Prices, ratings, quotes and feature lines come from your own published material.</div>';
+  document.getElementById('panel').innerHTML = h;
+}
+var _setTheme=setTheme; setTheme=function(th){ _setTheme(th); paintPanel(); };
+
+/* ---- views, jumps from the overview ---- */
+function showView(v){
+  if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); });
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){
+  b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); });
+});
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+
+applyStatic();
+scr.intro.classList.add('is-active');
+syncScreen(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
